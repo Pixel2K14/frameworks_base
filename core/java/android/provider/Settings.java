@@ -2786,6 +2786,21 @@ public final class Settings {
         @ChaosLab(name="GestureAnywhere", classification=Classification.NEW_FIELD)
         public static final String GESTURE_ANYWHERE_SHOW_TRIGGER = "gesture_anywhere_show_trigger";
 
+
+        /**
+         * Whether to display the gesture anywhere trigger region or not.
+         * @hide
+         */
+        @ChaosLab(name="Identicons", classification=Classification.NEW_FIELD)
+        public static final String IDENTICONS_ENABLED = "identicons_enabled";
+
+        /**
+         * Identicons style setting.
+         * @hide
+         */
+        @ChaosLab(name="Identicons", classification=Classification.NEW_FIELD)
+        public static final String IDENTICONS_STYLE = "identicons_style";
+
         /**
          * @deprecated Use {@link android.provider.Settings.Global#LOW_BATTERY_SOUND}
          * instead
