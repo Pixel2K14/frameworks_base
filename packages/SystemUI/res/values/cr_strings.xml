@@ -102,4 +102,8 @@
     <!-- Blacklisted app for floating mode -->
     <string name="floating_mode_blacklisted_app">The current app is blacklisted as it may not work as expected in floating mode </string>
 
+    <!-- Quick Settings -->
+    <string name="quick_settings_music_play">Play</string>
+    <string name="quick_settings_music_pause">Pause</string>
+
 </resources>
