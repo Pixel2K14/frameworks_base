@@ -4247,6 +4247,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 if (mRibbonQS != null) {
                     mRibbonQS.setupQuickSettings();
                 }
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_ALPHA))) {
+                setNotificationAlpha();
             } else if (mSettingsContainer != null) {
                 // Refresh the container
                 mQS.setupQuickSettings();

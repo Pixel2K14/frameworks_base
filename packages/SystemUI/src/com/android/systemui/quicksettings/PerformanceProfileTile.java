@@ -65,6 +65,7 @@ public class PerformanceProfileTile extends QuickSettingsTile {
                 changeToNextProfile();
                 if (isFlipTilesEnabled()) {
                     flipTile(0);
+                }
             }
         };
     }
