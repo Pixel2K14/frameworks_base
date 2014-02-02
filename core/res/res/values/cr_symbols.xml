@@ -15,6 +15,8 @@
 
   <!-- UI theme mode -->
   <java-symbol type="integer" name="config_uiThemeMode" />
+
+  <java-symbol type="string" name="theme_auto_switch_mode_error" />
   
   <!-- HW Keys enable/disable -->
   <java-symbol type="bool" name="config_hwKeysOnNavBar" />
