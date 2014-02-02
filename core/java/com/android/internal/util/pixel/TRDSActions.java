@@ -8,7 +8,7 @@
  * Thanks SlimRoms and kufikugel
  */
  
-package com.android.internal.util.crdroid;
+package com.android.internal.util.pixel;
 
 import android.app.Activity;
 import android.app.IUiModeManager;

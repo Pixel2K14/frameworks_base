@@ -72,4 +72,8 @@
     <string name="cpufreq_max">Max CPU Freq</string>
     <string name="cpufreq_min">Min CPU Freq</string>
 
+    <!-- TRDS -->
+    <string name="quick_settings_theme_switch_dark">Dark theme</string>
+    <string name="quick_settings_theme_switch_light">Light theme</string>
+
 </resources>
