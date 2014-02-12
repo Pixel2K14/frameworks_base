@@ -12,6 +12,9 @@
   <!-- Screen recorder -->
   <java-symbol type="string" name="global_action_screen_record" />
   <java-symbol type="drawable" name="ic_lock_screen_record" />
+
+  <!-- UI theme mode -->
+  <java-symbol type="integer" name="config_uiThemeMode" />
   
   <!-- HW Keys enable/disable -->
   <java-symbol type="bool" name="config_hwKeysOnNavBar" />
