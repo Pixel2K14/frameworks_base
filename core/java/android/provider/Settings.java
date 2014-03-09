@@ -3935,6 +3935,12 @@ public final class Settings {
         public static final String PEEK_WAKE_TIMEOUT = "peek_wake_timeout";
 
         /**
+         * Disable FC Notifications
+         * @hide
+         */
+        public static final String DISABLE_FC_NOTIFICATIONS = "disable_fc_notifications";
+
+        /**
          * Enables/disables lockscreen notifications
          * @hide
          */
@@ -4344,6 +4350,12 @@ public final class Settings {
          * @hide
          */
         public static final String APP_SIDEBAR_SHOW_TRIGGER = "app_sidebar_show_trigger";
+
+        /**
+         * Disable FC Notifications
+         * @hide
+         */
+        public static final String DISABLE_FC_NOTIFICATIONS = "disable_fc_notifications";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
