@@ -2412,7 +2412,6 @@
         android:description="@string/permlab_copyProtectedData"
         android:protectionLevel="signature" />
 
-<<<<<<< HEAD
 =======
     <!-- Permission for reading writing revoked permissions
          @hide -->
@@ -2434,7 +2433,6 @@
     <permission android:name="android.permission.SYSTEM_NOTIFICATION_LISTENER"
         android:protectionLevel="signature|system" />
 
->>>>>>> 269544e... 4.4 implementation of active display
     <!-- Internal permission protecting access to the encryption methods
         @hide
     -->
