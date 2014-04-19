@@ -59,7 +59,8 @@ public class WallpaperCropActivity extends Activity {
 
     protected static final String WALLPAPER_WIDTH_KEY = "wallpaper.width";
     protected static final String WALLPAPER_HEIGHT_KEY = "wallpaper.height";
-    protected static final int DEFAULT_COMPRESS_QUALITY = 90;
+    protected static final int DEFAULT_COMPRESS_QUALITY = 100;
+
     /**
      * The maximum bitmap size we allow to be returned through the intent.
      * Intents have a maximum of 1MB in total size. However, the Bitmap seems to
