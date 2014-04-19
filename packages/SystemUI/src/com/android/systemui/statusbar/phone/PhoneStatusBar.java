@@ -977,7 +977,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
         }
 
-<<<<<<< HEAD
         mNavigationBarView.setDisabledFlags(mDisabled);
         mNavigationBarView.setBar(this);
         mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
@@ -987,13 +986,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 return false;
             }
         });
-=======
 
         if (mRecreating) {
         } else {
             addActiveDisplayView();
         }
->>>>>>> 269544e... 4.4 implementation of active display
 
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;

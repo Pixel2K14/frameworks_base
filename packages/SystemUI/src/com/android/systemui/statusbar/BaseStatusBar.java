@@ -38,13 +38,10 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.ServiceConnection;
 import android.database.ContentObserver;
-<<<<<<< HEAD
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-=======
 import android.graphics.PixelFormat;
->>>>>>> 269544e... 4.4 implementation of active display
 import android.graphics.Rect;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuffXfermode;
@@ -101,13 +98,8 @@ import com.android.systemui.statusbar.phone.KeyguardTouchDelegate;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.systemui.statusbar.halo.Halo;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
-
-<<<<<<< HEAD
 import com.android.internal.util.cm.DevUtils;
-=======
 import com.android.systemui.statusbar.policy.activedisplay.ActiveDisplayView;
->>>>>>> 269544e... 4.4 implementation of active display
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -1690,7 +1682,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
         mContext.unregisterReceiver(mBroadcastReceiver);
     }
-<<<<<<< HEAD
 
     protected void setIconHiddenByUser(String iconPackage, boolean hide) {
         if (iconPackage == null
@@ -1715,7 +1706,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                 .getBoolean(iconPackage, false);
         return hide;
     }
-=======
     protected static void setSystemUIVisibility(View v, int visibility) {
         v.setSystemUiVisibility(visibility);
     }
@@ -1753,6 +1743,4 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         return lp;
     }
-
->>>>>>> 269544e... 4.4 implementation of active display
 }
