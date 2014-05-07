@@ -26,6 +26,7 @@ import static com.android.internal.util.cm.QSConstants.TILE_CAMERA;
 import static com.android.internal.util.cm.QSConstants.TILE_CPUFREQ;
 import static com.android.internal.util.cm.QSConstants.TILE_DELIMITER;
 import static com.android.internal.util.cm.QSConstants.TILE_EXPANDEDDESKTOP;
+import static com.android.internal.util.cm.QSConstants.TILE_FASTCHARGE;
 import static com.android.internal.util.cm.QSConstants.TILE_GPS;
 import static com.android.internal.util.cm.QSConstants.TILE_LOCKSCREEN;
 import static com.android.internal.util.cm.QSConstants.TILE_LTE;
@@ -47,10 +48,7 @@ import static com.android.internal.util.cm.QSConstants.TILE_VOLUME;
 import static com.android.internal.util.cm.QSConstants.TILE_WIFI;
 import static com.android.internal.util.cm.QSConstants.TILE_WIFIAP;
 import static com.android.internal.util.cm.QSConstants.TILE_WIMAX;
-<<<<<<< HEAD
 import static com.android.internal.util.cm.QSConstants.TILE_POWER;
-=======
->>>>>>> 3f90773... [1/2] CPUFreq Tile
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -80,6 +78,7 @@ import com.android.systemui.quicksettings.CameraTile;
 import com.android.systemui.quicksettings.CPUFreqTile;
 import com.android.systemui.quicksettings.DockBatteryTile;
 import com.android.systemui.quicksettings.ExpandedDesktopTile;
+import com.android.systemui.quicksettings.FastChargeTile;
 import com.android.systemui.quicksettings.GPSTile;
 import com.android.systemui.quicksettings.InputMethodTile;
 import com.android.systemui.quicksettings.LteTile;
@@ -87,6 +86,7 @@ import com.android.systemui.quicksettings.MobileNetworkTile;
 import com.android.systemui.quicksettings.MobileNetworkTypeTile;
 import com.android.systemui.quicksettings.NetworkAdbTile;
 import com.android.systemui.quicksettings.NfcTile;
+import com.android.systemui.quicksettings.OnTheGoTile;
 import com.android.systemui.quicksettings.PerformanceProfileTile;
 import com.android.systemui.quicksettings.PreferencesTile;
 import com.android.systemui.quicksettings.ProfileTile;
@@ -104,7 +104,7 @@ import com.android.systemui.quicksettings.VolumeTile;
 import com.android.systemui.quicksettings.RemoteDisplayTile;
 import com.android.systemui.quicksettings.WiFiTile;
 import com.android.systemui.quicksettings.WifiAPTile;
-import com.android.systemui.quicksettings.PowerMenuTile; 
+import com.android.systemui.quicksettings.PowerMenuTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,6 +176,7 @@ public class QuickSettingsController {
         boolean lteSupported = QSUtils.deviceSupportsLte(mContext);
         boolean gpsSupported = QSUtils.deviceSupportsGps(mContext);
         boolean torchSupported = QSUtils.deviceSupportsTorch(mContext);
+        boolean fastChargeSupported = QSUtils.deviceSupportsFastcharge();
 
         if (!bluetoothSupported) {
             TILES_DEFAULT.remove(TILE_BLUETOOTH);
@@ -300,19 +301,16 @@ public class QuickSettingsController {
                 if (QSUtils.adbEnabled(resolver)) {
                     qs = new NetworkAdbTile(mContext, this);
                 }
-<<<<<<< HEAD
 	    } else if (tile.equals(TILE_POWER)) {
                 qs = new PowerMenuTile(mContext, this);     
-=======
-            } else if (tile.equals(TILE_QUICKRECORD)) {
-                qs = new QuickRecordTile(mContext, this);
-            } else if (tile.contains(TILE_ONTHEGO)) {
-                qs = new OnTheGoTile(mContext, this);
+            } else if (tile.equals(TILE_FASTCHARGE)) {
+                if (fastChargeSupported) {
+                    qs = new FastChargeTile(mContext, this);
+                }
             } else if (tile.contains(TILE_CPUFREQ)) {
                 if (cpufreqSupported) {
                     qs = new CPUFreqTile(mContext, this);
                 }
->>>>>>> 3f90773... [1/2] CPUFreq Tile
             }
 
             if (qs != null) {
