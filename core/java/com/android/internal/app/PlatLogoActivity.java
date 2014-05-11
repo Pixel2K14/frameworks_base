@@ -46,14 +46,14 @@ public class PlatLogoActivity extends Activity {
     FrameLayout mContent;
     int mCount;
     final Handler mHandler = new Handler();
-    private boolean mIsPIXEL;
+    private boolean mIsCM;
     static final int BGCOLOR = 0xffed1d24;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mIsPIXEL = getIntent().hasExtra("is_pixel");
+        mIsCM = getIntent().hasExtra("is_cm");
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -73,8 +73,8 @@ public class PlatLogoActivity extends Activity {
         int p = (int) (20 * metrics.density);
 
         final ImageView logo = new ImageView(this);
-        logo.setImageResource(mIsPIXEL
-                ? com.android.internal.R.drawable.pixel_platlogo
+        logo.setImageResource(mIsCM
+                ? com.android.internal.R.drawable.cm_platlogo
                 : com.android.internal.R.drawable.platlogo);
         logo.setPadding(p, 0, p, 0);
         logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -87,14 +87,14 @@ public class PlatLogoActivity extends Activity {
         final TextView letter = new TextView(this);
 
         letter.setTypeface(bold);
-        letter.setTextSize(mIsPIXEL ? 150 : 300);
+        letter.setTextSize(mIsCM ? 150 : 300);
         letter.setTextColor(0xFFFFFFFF);
         letter.setGravity(Gravity.CENTER);
-        letter.setText(mIsPIXEL ? "Pixel" : "K");
+        letter.setText(mIsCM ? "Pixel" : "K");
 
-        String pixelVersion = SystemProperties.get("ro.pixel.version");
-        if (pixelVersion != null) {
-            pixelVersion = pixelVersion.replaceAll("([0-9\\.]+?)-.*", "$1");
+        String cmVersion = SystemProperties.get("ro.cm.version");
+        if (cmVersion != null) {
+            cmVersion = cmVersion.replaceAll("([0-9\\.]+?)-.*", "$1");
         }
 
         p = (int) (4 * metrics.density);
@@ -105,7 +105,7 @@ public class PlatLogoActivity extends Activity {
         tv.setPadding(p, p, p, p);
         tv.setTextColor(0xFFFFFFFF);
         tv.setGravity(Gravity.CENTER);
-        tv.setText(mIsPIXEL ? "Pixel " + PIXELVersion : "ANDROID " + Build.VERSION.RELEASE);
+        tv.setText(mIsCM ? "Pixel " + cmVersion : "ANDROID " + Build.VERSION.RELEASE);
         tv.setVisibility(View.INVISIBLE);
 
         mContent.addView(bg);
@@ -179,7 +179,7 @@ public class PlatLogoActivity extends Activity {
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK
                             | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-                        .putExtra("is_pixel", mIsPIXEL)
+                        .putExtra("is_cm", mIsCM)
                         .addCategory("com.android.internal.category.PLATLOGO"));
                 } catch (ActivityNotFoundException ex) {
                     android.util.Log.e("PlatLogoActivity", "Couldn't catch a break.");
