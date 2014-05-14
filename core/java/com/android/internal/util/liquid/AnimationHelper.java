@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.internal.util.pixel;
+package com.android.internal.util.liquid;
 
 import android.content.Context;
 import android.content.res.Resources;
