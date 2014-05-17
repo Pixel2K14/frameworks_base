@@ -87,7 +87,6 @@ import com.android.systemui.quicksettings.MobileNetworkTile;
 import com.android.systemui.quicksettings.MobileNetworkTypeTile;
 import com.android.systemui.quicksettings.NetworkAdbTile;
 import com.android.systemui.quicksettings.NfcTile;
-import com.android.systemui.quicksettings.OnTheGoTile;
 import com.android.systemui.quicksettings.PerformanceProfileTile;
 import com.android.systemui.quicksettings.PreferencesTile;
 import com.android.systemui.quicksettings.ProfileTile;
