@@ -46,6 +46,7 @@ public class PlatLogoActivity extends Activity {
     FrameLayout mContent;
     int mCount;
     final Handler mHandler = new Handler();
+    private boolean mIsPIXEL;
     private boolean mIsCM;
     static final int BGCOLOR = 0xffed1d24;
 
@@ -53,6 +54,7 @@ public class PlatLogoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mIsPIXEL = getIntent().hasExtra("is_pixel");
         mIsCM = getIntent().hasExtra("is_cm");
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -73,9 +75,13 @@ public class PlatLogoActivity extends Activity {
         int p = (int) (20 * metrics.density);
 
         final ImageView logo = new ImageView(this);
-        logo.setImageResource(mIsCM
-                ? com.android.internal.R.drawable.cm_platlogo
-                : com.android.internal.R.drawable.platlogo);
+        if (getIntent().hasExtra("is_pixel")) {
+            logo.setImageResource(com.android.internal.R.drawable.pixel_platlogo);
+        } else {
+            logo.setImageResource(mIsCM
+                    ? com.android.internal.R.drawable.cm_platlogo
+                    : com.android.internal.R.drawable.platlogo);
+        }
         logo.setPadding(p, 0, p, 0);
         logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         logo.setVisibility(View.INVISIBLE);
@@ -87,10 +93,23 @@ public class PlatLogoActivity extends Activity {
         final TextView letter = new TextView(this);
 
         letter.setTypeface(bold);
-        letter.setTextSize(mIsCM ? 150 : 300);
+        if (getIntent().hasExtra("is_pixel")) {
+            letter.setTextSize(300);
+        } else {
+            letter.setTextSize(mIsCM ? 150 : 300);
+        }
         letter.setTextColor(0xFFFFFFFF);
         letter.setGravity(Gravity.CENTER);
-        letter.setText(mIsCM ? "CM" : "K");
+        if (getIntent().hasExtra("is_pixel")) {
+            letter.setText("P");
+        } else {
+            letter.setText(mIsCM ? "CM" : "K");
+        }
+        
+        String pixelVersion = SystemProperties.get("ro.pixel.version");
+        if (pixelVersion != null) {
+            pixelVersion = pixelVersion.replaceAll("([0-9\\.]+?)-.*", "$1");
+        }
 
         String cmVersion = SystemProperties.get("ro.cm.version");
         if (cmVersion != null) {
@@ -105,7 +124,11 @@ public class PlatLogoActivity extends Activity {
         tv.setPadding(p, p, p, p);
         tv.setTextColor(0xFFFFFFFF);
         tv.setGravity(Gravity.CENTER);
-        tv.setText(mIsCM ? "CyanogenMod " + cmVersion : "ANDROID " + Build.VERSION.RELEASE);
+        if (getIntent().hasExtra("is_pixel")) {
+            tv.setText("Pixel " + pixelVersion);
+        } else {
+            tv.setText(mIsCM ? "CyanogenMod " + cmVersion : "ANDROID " + Build.VERSION.RELEASE);
+        }
         tv.setVisibility(View.INVISIBLE);
 
         mContent.addView(bg);
@@ -174,13 +197,23 @@ public class PlatLogoActivity extends Activity {
                             Settings.System.EGG_MODE,
                             System.currentTimeMillis());
                 }
-                try {
-                    startActivity(new Intent(Intent.ACTION_MAIN)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-                        .putExtra("is_cm", mIsCM)
-                        .addCategory("com.android.internal.category.PLATLOGO"));
+                if (getIntent().hasExtra("is_pixel")) {
+                    try {
+                       startActivity(new Intent(Intent.ACTION_MAIN)
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+                            .addCategory("com.android.internal.category.PLATLOGO"));
+                    }
+                } else {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_MAIN)
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+                            .putExtra("is_cm", mIsCM)
+                            .addCategory("com.android.internal.category.PLATLOGO"));
+                    }
                 } catch (ActivityNotFoundException ex) {
                     android.util.Log.e("PlatLogoActivity", "Couldn't catch a break.");
                 }
