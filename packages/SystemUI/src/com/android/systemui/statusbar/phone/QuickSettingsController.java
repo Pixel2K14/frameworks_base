@@ -105,13 +105,9 @@ import com.android.systemui.quicksettings.VolumeTile;
 import com.android.systemui.quicksettings.RemoteDisplayTile;
 import com.android.systemui.quicksettings.WiFiTile;
 import com.android.systemui.quicksettings.WifiAPTile;
-<<<<<<< HEAD
 import com.android.systemui.quicksettings.PowerMenuTile;
 import com.android.systemui.quicksettings.ThemeTile;
-=======
-import com.android.systemui.quicksettings.PowerMenuTile; 
 import com.android.systemui.quicksettings.OnTheGoTile;
->>>>>>> 4eecb49... Squashed On-The-Go mode (1/2)
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -309,7 +305,6 @@ public class QuickSettingsController {
                     qs = new NetworkAdbTile(mContext, this);
                 }
 	    } else if (tile.equals(TILE_POWER)) {
-<<<<<<< HEAD
                     qs = new PowerMenuTile(mContext, this);
             } else if (tile.equals(TILE_FASTCHARGE)) {
                 if (fastChargeSupported) {
@@ -321,11 +316,8 @@ public class QuickSettingsController {
                 }
             } else if (tile.equals(TILE_THEME)) {
                     qs = new ThemeTile(mContext, this);
-=======
-                qs = new PowerMenuTile(mContext, this);     
             } else if (tile.equals(TILE_ONTHEGO)) {
-                qs = new OnTheGoTile(mContext, this);     
->>>>>>> 4eecb49... Squashed On-The-Go mode (1/2)
+                    qs = new OnTheGoTile(mContext, this);     
             }
 
             if (qs != null) {
