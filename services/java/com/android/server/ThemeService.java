@@ -731,8 +731,6 @@ public class ThemeService extends IThemeService.Stub {
         if (anim.exists())
             anim.delete();
     }
-<<<<<<< HEAD
-=======
 
     public void applyDefaultTheme() {
         mContext.enforceCallingOrSelfPermission(
@@ -785,5 +783,4 @@ public class ThemeService extends IThemeService.Stub {
             }
         }
     };
->>>>>>> 64348cc... CM11 Themes: Clear wallpaper mixnmatch entry on external change
 }
