@@ -317,11 +317,8 @@ public class QuickSettingsController {
                 }
             } else if (tile.equals(TILE_THEME)) {
                     qs = new ThemeTile(mContext, this);
-=======
-                qs = new PowerMenuTile(mContext, this);     
             } else if (tile.equals(TILE_ONTHEGO)) {
-                qs = new OnTheGoTile(mContext, this);     
->>>>>>> 4eecb49... Squashed On-The-Go mode (1/2)
+                qs = new OnTheGoTile(mContext, this);
             }
 
             if (qs != null) {
