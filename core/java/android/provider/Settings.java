@@ -2911,12 +2911,6 @@ public final class Settings {
          */
         public static final String EGG_MODE = "egg_mode";
 
-        /**
-         * Display second in the Clock
-         * @hide
-         */
-        public static final String CLOCK_USE_SECOND = "clock_use_second";
-
        /**
          * Animate-flip Quick Settings Panel Tiles on click
          *
