@@ -20,12 +20,10 @@ import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
 import android.app.IActivityManager;
 import android.app.WallpaperManager;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -81,7 +79,6 @@ public class ThemeService extends IThemeService.Stub {
     private Context mContext;
     private String mPkgName;
     private int mProgress;
-    private boolean mWallpaperChangedByUs = false;
 
     private final RemoteCallbackList<IThemeChangeListener> mClients =
             new RemoteCallbackList<IThemeChangeListener>();
@@ -138,9 +135,6 @@ public class ThemeService extends IThemeService.Stub {
     }
 
     public void systemRunning() {
-        // listen for wallpaper changes
-        IntentFilter filter = new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED);
-        mContext.registerReceiver(mWallpaperChangeReceiver, filter);
     }
 
     private void doApplyTheme(String pkgName, List<String> components) {
@@ -159,7 +153,7 @@ public class ThemeService extends IThemeService.Stub {
         // TODO: provide progress updates that reflect the time needed for each component
         final int progressIncrement = 75 / components.size();
 
-        updateProvider(components, mPkgName);
+        updateProvider(components);
 
         if (components.contains(ThemesContract.ThemesColumns.MODIFIES_ICONS)) {
             updateIcons();
@@ -167,9 +161,7 @@ public class ThemeService extends IThemeService.Stub {
         }
 
         if (components.contains(ThemesContract.ThemesColumns.MODIFIES_LAUNCHER)) {
-            if (updateWallpaper()) {
-                mWallpaperChangedByUs = true;
-            }
+            updateWallpaper();
             incrementProgress(progressIncrement, pkgName);
         }
 
@@ -253,9 +245,9 @@ public class ThemeService extends IThemeService.Stub {
         }
     }
 
-    private void updateProvider(List<String> components, String pkgName) {
+    private void updateProvider(List<String> components) {
         ContentValues values = new ContentValues();
-        values.put(ThemesContract.MixnMatchColumns.COL_VALUE, pkgName);
+        values.put(ThemesContract.MixnMatchColumns.COL_VALUE, mPkgName);
 
         for (String component : components) {
             String where = ThemesContract.MixnMatchColumns.COL_KEY + "=?";
@@ -731,18 +723,4 @@ public class ThemeService extends IThemeService.Stub {
         if (anim.exists())
             anim.delete();
     }
-
-    private BroadcastReceiver mWallpaperChangeReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!mWallpaperChangedByUs) {
-                // In case the mixnmatch table has a mods_launcher entry, we'll clear it
-                List<String> components = new ArrayList<String>(1);
-                components.add(ThemesContract.ThemesColumns.MODIFIES_LAUNCHER);
-                updateProvider(components, "");
-            } else {
-                mWallpaperChangedByUs = false;
-            }
-        }
-    };
 }
