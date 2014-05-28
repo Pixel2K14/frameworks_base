@@ -19,7 +19,6 @@ package com.android.systemui.quicksettings;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -78,20 +77,6 @@ public class MusicTile extends QuickSettingsTile {
                 return true;
             }
         };
-    }
-
-    @Override
-    public void onFlingRight() {
-        Intent intent = new Intent();
-                sendMediaButtonClick(KeyEvent.KEYCODE_MEDIA_NEXT);
-        super.onFlingRight();
-    }
-
-    @Override
-    public void onFlingLeft() {
-        Intent intent = new Intent();
-                sendMediaButtonClick(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-        super.onFlingLeft();
     }
 
     @Override
