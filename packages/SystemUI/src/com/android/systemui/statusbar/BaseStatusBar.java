@@ -104,7 +104,7 @@ import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.systemui.statusbar.phone.Ticker;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
 
-import com.android.internal.util.crdroid.TaskUtils;
+import com.android.internal.util.pixel.TaskUtils;
 import com.android.internal.util.cm.DevUtils;
 
 import java.util.ArrayList;

@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.internal.util.crdroid;
+package com.android.internal.util.pixel;
 
 import android.content.Context;
 import android.content.Intent;
