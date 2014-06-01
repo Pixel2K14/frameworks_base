@@ -645,12 +645,12 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 SinglePressAction switchToUser = new SinglePressAction(
                         com.android.internal.R.drawable.ic_menu_cc, icon,
                         (user.name != null ? user.name : "Primary")
-                        (isCurrentUser ? " \u2714" : "")) {
+                        + (isCurrentUser ? " \u2714" : "")) {
                     public void onPress() {
                         try {
                             ActivityManagerNative.getDefault().switchUser(user.id);
                         } catch (RemoteException re) {
-                            Log.e(TAG, "Couldn't switch user " re);
+                            Log.e(TAG, "Couldn't switch user " + re);
                         }
                     }
 
@@ -903,11 +903,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 filteredPos++;
             }
 
-            throw new IllegalArgumentException("position " position
-                    " out of range of showable actions"
-                    ", filtered count=" getCount()
-                    ", keyguardlocked=" mKeyguardLocked
-                    ", provisioned=" mDeviceProvisioned);
+            throw new IllegalArgumentException("position " + position
+                     + " out of range of showable actions"
+                     + ", filtered count=" getCount()
+                     + ", keyguardlocked=" mKeyguardLocked
+                     + ", provisioned=" mDeviceProvisioned);
         }
 
 
@@ -1528,8 +1528,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                     final int eventY = (int) event.getY();
                     if (eventX < -mWindowTouchSlop
                             || eventY < -mWindowTouchSlop
-                            || eventX >= decor.getWidth() mWindowTouchSlop
-                            || eventY >= decor.getHeight() mWindowTouchSlop) {
+                            || eventX >= decor.getWidth() + mWindowTouchSlop
+                            || eventY >= decor.getHeight() + mWindowTouchSlop) {
                         mCancelOnUp = true;
                     }
                 }
