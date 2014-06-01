@@ -17,6 +17,7 @@
 package android.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.CompatibilityInfo;
 import android.content.res.Configuration;
 import android.graphics.Rect;
@@ -1014,6 +1015,12 @@ public interface WindowManagerPolicy {
     public boolean isKeyguardSecure();
 
     /**
+     * Ask keyguard to invoke a custom intent after dismissing keyguard
+     * @hide
+     */
+    public void showCustomIntentOnKeyguard(Intent intent);
+
+    /**
      * inKeyguardRestrictedKeyInputMode
      *
      * if keyguard screen is showing or in restricted key input mode (i.e. in
@@ -1228,4 +1235,11 @@ public interface WindowManagerPolicy {
      * @hide
      */
     public void toggleGlobalMenu();
+
+    /**
+     * Toggle statusbar on expanded desktop
+     *
+     * @hide
+     */
+    void toggleStatusBar();
 }
