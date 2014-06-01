@@ -93,7 +93,6 @@ import android.content.ServiceConnection;
 import android.content.ComponentName;
 import android.os.IBinder;
 import android.os.Messenger;
-import android.os.RemoteException;
 
 import com.android.internal.util.slim.SlimActions;
 
@@ -265,7 +264,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             }
         };
         onExpandDesktopModeChanged();
-
+        
         mNavBarModeOn = new ToggleAction(
                 R.drawable.ic_lock_navbar_on,
                 R.drawable.ic_lock_navbar_off,
@@ -484,6 +483,14 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         if (showExpandedDesktop) {
             mItems.add(mExpandDesktopModeOn);
         }
+        
+        // next: Nav Bar toggle
+        boolean showNavBar = Settings.System.getBoolean(cr,
+                Settings.System.POWER_MENU_NAV_BAR_ENABLED, false);
+
+        if (showNavBar) {
+            mItems.add(mNavBarModeOn);
+        }
 
         // next: On-The-Go, if enabled
         boolean showOnTheGo = Settings.System.getBoolean(mContext.getContentResolver(),
@@ -511,13 +518,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                         }
                     }
             );
-
-        // next: Nav Bar toggle
-        boolean showNavBar = Settings.System.getBoolean(cr,
-                Settings.System.POWER_MENU_NAV_BAR_ENABLED, false);
-
-        if (showNavBar) {
-            mItems.add(mNavBarModeOn);
         }
 
         // next: airplane mode
@@ -645,12 +645,12 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 SinglePressAction switchToUser = new SinglePressAction(
                         com.android.internal.R.drawable.ic_menu_cc, icon,
                         (user.name != null ? user.name : "Primary")
-                        + (isCurrentUser ? " \u2714" : "")) {
+                        (isCurrentUser ? " \u2714" : "")) {
                     public void onPress() {
                         try {
                             ActivityManagerNative.getDefault().switchUser(user.id);
                         } catch (RemoteException re) {
-                            Log.e(TAG, "Couldn't switch user " + re);
+                            Log.e(TAG, "Couldn't switch user " re);
                         }
                     }
 
@@ -811,7 +811,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             IntentFilter filter = new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
             mContext.registerReceiver(mRingerModeReceiver, filter);
         }
-
+        
         if (mNavBarModeOn != null) {
             mNavBarModeOn.updateState(mNavBarState);
         }
@@ -903,11 +903,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 filteredPos++;
             }
 
-            throw new IllegalArgumentException("position " + position
-                    + " out of range of showable actions"
-                    + ", filtered count=" + getCount()
-                    + ", keyguardlocked=" + mKeyguardLocked
-                    + ", provisioned=" + mDeviceProvisioned);
+            throw new IllegalArgumentException("position " position
+                    " out of range of showable actions"
+                    ", filtered count=" getCount()
+                    ", keyguardlocked=" mKeyguardLocked
+                    ", provisioned=" mDeviceProvisioned);
         }
 
 
@@ -1309,7 +1309,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             mUiContext = null;
         }
     };
-
+    
     private SettingsObserver mSettingsObserver = new SettingsObserver(new Handler());
     private final class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
@@ -1411,7 +1411,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 0, UserHandle.USER_CURRENT) == 1;
         mExpandDesktopModeOn.updateState(expandDesktopModeOn ? ToggleAction.State.On : ToggleAction.State.Off);
     }
-
+    
     private void onNavBarModeChanged() {
         boolean defaultValue = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_showNavigationBar);
@@ -1451,7 +1451,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 Settings.System.EXPANDED_DESKTOP_STATE,
                 on ? 1 : 0, UserHandle.USER_CURRENT);
     }
-
+    
     private void changeNavBarSetting(boolean on) {
         Settings.System.putIntForUser(
                 mContext.getContentResolver(),
@@ -1528,8 +1528,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                     final int eventY = (int) event.getY();
                     if (eventX < -mWindowTouchSlop
                             || eventY < -mWindowTouchSlop
-                            || eventX >= decor.getWidth() + mWindowTouchSlop
-                            || eventY >= decor.getHeight() + mWindowTouchSlop) {
+                            || eventX >= decor.getWidth() mWindowTouchSlop
+                            || eventY >= decor.getHeight() mWindowTouchSlop) {
                         mCancelOnUp = true;
                     }
                 }
