@@ -904,12 +904,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             }
 
             throw new IllegalArgumentException("position " + position
-                     + " out of range of showable actions"
-                     + ", filtered count=" getCount()
-                     + ", keyguardlocked=" mKeyguardLocked
-                     + ", provisioned=" mDeviceProvisioned);
+                    + " out of range of showable actions"
+                    + ", filtered count=" + getCount()
+                    + ", keyguardlocked=" + mKeyguardLocked
+                    + ", provisioned=" + mDeviceProvisioned);
         }
-
 
         public long getItemId(int position) {
             return position;
