@@ -94,6 +94,7 @@ import android.content.ComponentName;
 import android.os.IBinder;
 import android.os.Messenger;
 
+import com.android.internal.util.slim.ButtonsConstants;
 import com.android.internal.util.slim.SlimActions;
 
 /**
@@ -273,7 +274,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 R.string.global_actions_nav_bar_mode_off_status) {
 
             void onToggle(boolean on) {
-                changeNavBarSetting(on);
+                SlimActions.processAction(
+                    mContext, ButtonsConstants.ACTION_NAVBAR, false);
+                //changeNavBarSetting(on);
             }
 
             public boolean showDuringKeyguard() {
@@ -1450,7 +1453,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 Settings.System.EXPANDED_DESKTOP_STATE,
                 on ? 1 : 0, UserHandle.USER_CURRENT);
     }
-    
+
     private void changeNavBarSetting(boolean on) {
         Settings.System.putIntForUser(
                 mContext.getContentResolver(),
