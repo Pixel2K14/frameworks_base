@@ -1025,8 +1025,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         if (mRecreating) {
             removeSidebarView();
+        } else {
+            /* ChaosLab: GestureAnywhere - BEGIN */
+            addGestureAnywhereView();
+            /* ChaosLab: GestureAnywhere - END */
         }
-
         addSidebarView();
 
         mNavigationBarView.setDisabledFlags(mDisabled);
@@ -1039,14 +1042,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 return false;
             }
         });
-
-        if (mRecreating) {
-        } else {
-            //addActiveDisplayView();
-            /* ChaosLab: GestureAnywhere - BEGIN */
-            addGestureAnywhereView();
-            /* ChaosLab: GestureAnywhere - END */
-        }
 
         // Setup pie container if enabled
         attachPieContainer(isPieEnabled());
