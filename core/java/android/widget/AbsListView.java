@@ -2267,6 +2267,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
             // If the view type hasn't changed, attempt to re-bind the data.
             if (params.viewType == mAdapter.getItemViewType(position)) {
                 final View updatedView = mAdapter.getView(position, transientView, this);
+<<<<<<< HEAD
 
             if (mListAnimationMode != 0 && !mIsWidget) {
                 child = setAnimation(child);
@@ -2275,6 +2276,9 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
             if (child.getImportantForAccessibility() == IMPORTANT_FOR_ACCESSIBILITY_AUTO) {
                 child.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
 
+=======
+
+>>>>>>> 5cdfa27... Merge tag '4.4.3_r1.1' into HEAD
                 // If we failed to re-bind the data, scrap the obtained view.
                 if (updatedView != transientView) {
                     mRecycler.addScrapView(updatedView, position);
