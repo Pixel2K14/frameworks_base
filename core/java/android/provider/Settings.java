@@ -4435,12 +4435,6 @@ public final class Settings {
         public static final String HALO_UNLOCK_PING = "halo_unlock_ping";
 
         /**
-         * Halo notifications on floating windows or not
-         * @hide
-         */
-        public static final String FLOATING_MODE = "floating_mode";
-
-        /**
          * Show brightness slider in notification panel
          * @hide
          */
