@@ -106,6 +106,7 @@ public class QSUtils {
             for (String path : paths)
                 if (new File(path).exists()) return true;
             return false;
+        }
 
         public static boolean deviceSupportsCompass(Context context) {
             SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
