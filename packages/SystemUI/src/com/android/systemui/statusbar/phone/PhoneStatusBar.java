@@ -4319,20 +4319,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     inflateRibbon();
                     mRibbonView.setVisibility(View.VISIBLE);
             } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.QUICK_TILES_PER_ROW))
-                || uri.equals(Settings.System.getUriFor(
-                    Settings.System.QUICK_TILES_PER_ROW_DUPLICATE_LANDSCAPE))) {
-                if (mQS != null) {
-                    mQS.setupQuickSettings();
-                }
-            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_ALPHA))) {
                 setNotificationAlpha();
             } else if (mSettingsContainer != null) {
-                // Refresh the container
-                mSettingsContainer.removeAllViews();
                 mQS.setupQuickSettings();
-                mSettingsContainer.updateResources();
                 if (mQuickAccessLayoutLinked && mRibbonQS != null) {
                     mRibbonQS.setupQuickSettings();
                 }
@@ -4388,15 +4378,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             cr.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.QUICK_SETTINGS_RIBBON_TILES),
                     false, this, UserHandle.USER_ALL);
-
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QUICK_TILES_PER_ROW),
-                    false, this);
-
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.QUICK_TILES_PER_ROW_DUPLICATE_LANDSCAPE),
-                    false, this);
-
         }
     }
 
