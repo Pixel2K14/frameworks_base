@@ -1389,7 +1389,7 @@ final class ActivityStack {
         // We need to start pausing the current activity so the top one
         // can be resumed...
         boolean pausing = mStackSupervisor.pauseBackStacks(userLeaving);
-        if (mResumedActivity != null && (pauseActiveAppWhenUsingHalo() || !next.floatingWindow)) {
+        if (mResumedActivity != null && !next.floatingWindow) {
             pausing = true;
             startPausingLocked(userLeaving, false);
             if (DEBUG_STATES) Slog.d(TAG, "resumeTopActivityLocked: Pausing " + mResumedActivity);
@@ -1665,12 +1665,6 @@ final class ActivityStack {
 
         if (DEBUG_STACK) mStackSupervisor.validateTopActivitiesLocked();
         return true;
-    }
-
-    private boolean pauseActiveAppWhenUsingHalo() {
-        int isLowRAM = (!ActivityManager.isLowRamDeviceStatic()) ? 0 : 1;
-        return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.HALO_PAUSE, isLowRAM) == 1;
     }
 
     private void insertTaskAtTop(TaskRecord task) {
