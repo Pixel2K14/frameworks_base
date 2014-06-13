@@ -16,7 +16,7 @@
 */
 -->
 <resources>
-
+ 
     <!-- Slim recent -->
     <dimen name="recent_width">230dp</dimen>
     <dimen name="recent_app_icon_size">48dp</dimen>
