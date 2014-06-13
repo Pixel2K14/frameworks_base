@@ -325,13 +325,8 @@ public class QuickSettingsController {
                 qs = new OnTheGoTile(mContext, this);
             } else if (tile.equals(TILE_COMPASS)) {
                 qs = new CompassTile(mContext, this);
-<<<<<<< HEAD
-            } else if (tile.equals(TILE_MUSIC)) {
-                qs = new MusicTile(mContext, this);
             } else if (tile.equals(TILE_QUICKRECORD)) {
                 qs = new QuickRecordTile(mContext, this);
-=======
->>>>>>> parent of d43dae6... Add music tile from SlimRom (1/2)
             }
 
             if (qs != null) {
