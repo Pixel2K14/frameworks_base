@@ -174,6 +174,14 @@ public class TvStatusBar extends BaseStatusBar {
     }
 
     @Override
+    public void hideHeadsUp() {
+    }
+
+    @Override
+    public void animateExpandSettingsPanel() {
+    }
+
+    @Override
     protected void refreshLayout(int layoutDirection) {
     }
 
