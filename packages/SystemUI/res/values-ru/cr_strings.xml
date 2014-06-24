@@ -2,6 +2,19 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Content description of the halo button in the notification panel for accessibility (not sho
+         wn on the screen). [CHAR LIMIT=NONE] -->  
+    <string name="accessibility_halo">Создать уведомление HALO</string>
+
+    <!-- HALO -->
+    <string name="halo_dismiss">Отклонять уведомления</string>
+    <string name="halo_hide">Скрыть</string>
+    <string name="halo_clear_all">Отклонять все уведомления</string>
+    <string name="halo_silence">Скрыть &amp; тихий до пробуждения</string>
+    <string name="halo_tutorial1">Это HALO</string>
+    <string name="halo_tutorial2">Передвинь меня: 2-ое нажатие &amp; перемещение</string>
+    <string name="halo_tutorial3">Обзор задач: Горизонтальное перемещение</string>
+
     <!-- Power menu -->
     <string name="quick_settings_powermenu_label">Меню кнопки питания</string>
 

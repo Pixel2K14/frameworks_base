@@ -207,16 +207,20 @@ public class NotificationManagerService extends INotificationManager.Stub
     private HashSet<String> mEnabledListenerPackageNames = new HashSet<String>();
 
     // Notification control database. For now just contains disabled packages.
-    private AtomicFile mPolicyFile, mPeekPolicyFile, mFloatingModePolicyFile;
+    private AtomicFile mPolicyFile, mHaloPolicyFile, mPeekPolicyFile, mFloatingModePolicyFile;
     private HashSet<String> mBlockedPackages = new HashSet<String>();
+    private HashSet<String> mHaloBlacklist = new HashSet<String>();
+    private HashSet<String> mHaloWhitelist = new HashSet<String>();
     private HashSet<String> mPeekBlacklist = new HashSet<String>();
     private HashSet<String> mFloatingModeBlacklist = new HashSet<String>();
-    
+    private boolean mHaloPolicyisBlack = true;
+
     private static final int DB_VERSION = 1;
 
     private static final String TAG_BODY = "notification-policy";
     private static final String ATTR_VERSION = "version";
-    
+    private static final String ATTR_HALO_POLICY_IS_BLACK = "policy_is_black";
+
     private static final String TAG_ALLOWED_PKGS = "allowed-packages";
     private static final String TAG_BLOCKED_PKGS = "blocked-packages";
     private static final String TAG_PACKAGE = "package";
@@ -494,6 +498,16 @@ public class NotificationManagerService extends INotificationManager.Stub
         }
     }
 
+    private synchronized void loadHaloBlockDb() {
+        if (mHaloPolicyFile == null) {
+            mHaloPolicyFile = new AtomicFile(new File(SYSTEM_FOLDER, "halo_policy.xml"));
+            mHaloBlacklist.clear();
+            mHaloPolicyisBlack = readPolicy(mHaloPolicyFile, TAG_BLOCKED_PKGS, mHaloBlacklist, ATTR_HALO_POLICY_IS_BLACK, 1) == 1;
+            mHaloWhitelist.clear();
+            readPolicy(mHaloPolicyFile, TAG_ALLOWED_PKGS, mHaloWhitelist);
+        }
+    }
+
     private void loadPeekBlockDb() {
         synchronized(mPeekBlacklist) {
             if (mPeekPolicyFile == null) {
@@ -545,6 +559,90 @@ public class NotificationManagerService extends INotificationManager.Stub
                     mPolicyFile.failWrite(outfile);
                 }
             }
+        }
+    }
+
+    private synchronized void writeHaloBlockDb() {
+        FileOutputStream outfile = null;
+        try {
+            outfile = mHaloPolicyFile.startWrite();
+
+            XmlSerializer out = new FastXmlSerializer();
+            out.setOutput(outfile, "utf-8");
+
+            out.startDocument(null, true);
+
+            out.startTag(null, TAG_BODY); {
+                out.attribute(null, ATTR_VERSION, String.valueOf(DB_VERSION));
+                out.attribute(null, ATTR_HALO_POLICY_IS_BLACK, (mHaloPolicyisBlack ? "1" : "0"));
+
+                    out.startTag(null, TAG_BLOCKED_PKGS); {
+                        for (String blockedPkg : mHaloBlacklist) {
+                            out.startTag(null, TAG_PACKAGE); {
+                                out.attribute(null, ATTR_NAME, blockedPkg);
+                            } out.endTag(null, TAG_PACKAGE);
+                        }
+                    } out.endTag(null, TAG_BLOCKED_PKGS);
+                    out.startTag(null, TAG_ALLOWED_PKGS); {
+                        for (String allowedPkg : mHaloWhitelist) {
+                            out.startTag(null, TAG_PACKAGE); {
+                                out.attribute(null, ATTR_NAME, allowedPkg);
+                            } out.endTag(null, TAG_PACKAGE);
+                        }
+                    } out.endTag(null, TAG_ALLOWED_PKGS);
+
+            } out.endTag(null, TAG_BODY);
+
+            out.endDocument();
+
+            mHaloPolicyFile.finishWrite(outfile);
+        } catch (IOException e) {
+            if (outfile != null) {
+                mHaloPolicyFile.failWrite(outfile);
+            }
+        }
+    }
+
+    public void setHaloPolicyBlack(boolean state) {
+        mHaloPolicyisBlack = state;
+        writeHaloBlockDb();
+    }
+
+    public void setHaloStatus(String pkg, boolean status) {
+        if (mHaloPolicyisBlack) {
+            setHaloBlacklistStatus(pkg, status);
+        } else {
+            setHaloWhitelistStatus(pkg, status);
+        }
+    }
+
+    public void setHaloBlacklistStatus(String pkg, boolean status) {
+        if (status) {
+            mHaloBlacklist.add(pkg);
+        } else {
+            mHaloBlacklist.remove(pkg);
+        }
+        writeHaloBlockDb();
+    }
+
+    public void setHaloWhitelistStatus(String pkg, boolean status) {
+        if (status) {
+            mHaloWhitelist.add(pkg);
+        } else {
+            mHaloWhitelist.remove(pkg);
+        }
+        writeHaloBlockDb();
+    }
+
+    public boolean isHaloPolicyBlack() {
+        return mHaloPolicyisBlack;
+    }
+
+    public boolean isPackageAllowedForHalo(String pkg) {
+        if (mHaloPolicyisBlack) {
+            return !mHaloBlacklist.contains(pkg);
+        } else {
+            return mHaloWhitelist.contains(pkg);
         }
     }
 
@@ -856,8 +954,10 @@ public class NotificationManagerService extends INotificationManager.Stub
         for (NotificationListenerInfo info : toRemove) {
             final ComponentName component = info.component;
             final int oldUser = info.userid;
-            Slog.v(TAG, "disabling notification listener for user " + oldUser + ": " + component);
-            unregisterListenerService(component, info.userid);
+            if (!info.isSystem && !component.getPackageName().equals("HaloComponent")) {
+                Slog.v(TAG, "disabling notification listener for user " + oldUser + ": " + component);
+                unregisterListenerService(component, info.userid);
+            }
         }
 
         final int N = toAdd.size();
@@ -878,7 +978,11 @@ public class NotificationManagerService extends INotificationManager.Stub
     @Override
     public void registerListener(final INotificationListener listener,
             final ComponentName component, final int userid) {
-        checkCallerIsSystem();
+        final int permission = mContext.checkCallingPermission(
+                android.Manifest.permission.SYSTEM_NOTIFICATION_LISTENER);
+        if (permission == PackageManager.PERMISSION_DENIED && !component.getPackageName().equals("HaloComponent")) {
+            checkCallerIsSystem();
+        }
 
         synchronized (mNotificationList) {
             try {
@@ -1715,6 +1819,7 @@ public class NotificationManagerService extends INotificationManager.Stub
     private void importOldBlockDb() {
 
         loadBlockDb();
+        loadHaloBlockDb();
         loadPeekBlockDb();
         loadFloatingModeBlockDb();
 
