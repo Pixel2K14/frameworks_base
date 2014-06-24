@@ -833,6 +833,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         SettingsObserver observer = new SettingsObserver(mHandler);
         observer.observe();
 
+        HoverAndHaloObserver hhObserver = new HoverAndHaloObserver(mHandler);
+        hhObserver.observe();
+
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext);
 
@@ -1328,12 +1331,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mQS.setService(this);
                 mQS.setBar(mStatusBarView);
                 mQS.setupQuickSettings();
-
-                // Start observing for Halo and Hover
-                if (mHoverAndHaloObserver == null) {
-                    mHoverAndHaloObserver = new HoverAndHaloObserver(mHandler);
-                    mHoverAndHaloObserver.observe();
-                }
 
                 // Start observing for changes
                 if (mTilesChangedObserver == null) {
@@ -4477,13 +4474,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     animateCollapsePanels(CommandQueue.FLAG_EXCLUDE_NONE);
                 }
             }
-            // Toggle Halo
-            Settings.System.putInt(mContext.getContentResolver(),
-                    Settings.System.HALO_ACTIVE, mHaloActive ? 0 : 1);
-            // Toggle Hover
-            Settings.System.putInt(mContext.getContentResolver(),
-                    Settings.System.HOVER_STATE,
-                            mHoverState != HOVER_DISABLED ? HOVER_DISABLED : HOVER_ENABLED);
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HALO_ACTIVE), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HALO_ACTIVE), false, this,
+                    UserHandle.USER_ALL);
 
             updateHalo();
             updateHoverState();
@@ -4492,7 +4489,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mTickerView.setVisibility(View.GONE);
         }
 
-        @Override public void onChange(boolean selfChange) {}
+        @Override
+        public void onChange(boolean selfChange) {
+            updateHalo();
+            updateHoverState();
+        }
     }
 
     private void setNotificationAlpha() {
