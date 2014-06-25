@@ -272,8 +272,11 @@ public abstract class BaseStatusBar extends SystemUI implements
     private ArrayList<String> mBlacklist;
 
     protected int mExpandedDesktopStyle = 0;
+<<<<<<< HEAD
 
     private boolean mCustomRecent = false;
+=======
+>>>>>>> b3d3625... Fix merge derp in BaseStatusBar.java
 
     protected AppSidebar mAppSidebar;
     protected int mSidebarPosition;
