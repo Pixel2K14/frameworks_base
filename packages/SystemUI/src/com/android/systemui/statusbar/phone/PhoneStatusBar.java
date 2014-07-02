@@ -1032,6 +1032,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mNavigationBarView.setDisabledFlags(mDisabled);
         mNavigationBarView.setBar(this);
+        mNavigationBarView.updateResources(getNavbarThemedResources());
         addNavigationBarCallback(mNavigationBarView);
         mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -1049,18 +1050,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             /* ChaosLab: GestureAnywhere - END */
         }
         addSidebarView();
-
-        mNavigationBarView.setDisabledFlags(mDisabled);
-        mNavigationBarView.setBar(this);
-        mNavigationBarView.updateResources(getNavbarThemedResources());
-        addNavigationBarCallback(mNavigationBarView);
-        mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                checkUserAutohide(v, event);
-                return false;
-            }
-        });
 
         // Setup pie container if enabled
         attachPieContainer(isPieEnabled());
