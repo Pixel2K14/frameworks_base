@@ -869,7 +869,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                                     .getSystemService(Context.ACTIVITY_SERVICE);
                             am.clearApplicationUserData(packageNameF,
                                     new FakeClearUserDataObserver());
-<<<<<<< HEAD
                         } else if (item.getItemId() == R.id.notification_hide_icon_packages) {
                             item.setChecked(!item.isChecked());
                             setIconHiddenByUser(packageNameF, item.isChecked());
@@ -898,7 +897,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                                 animateCollapsePanels(CommandQueue.FLAG_EXCLUDE_NONE);
                                 Toast.makeText(mContext, text, duration).show();
                             }
-=======
                         } else if (item.getItemId() == R.id.notification_spam_item) {
                             ContentValues values = new ContentValues();
                             String message = SpamFilter.getNotificationContent(
@@ -907,7 +905,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                             values.put(PackageTable.PACKAGE_NAME, packageNameF);
                             mContext.getContentResolver().insert(SPAM_MESSAGE_URI, values);
                             removeNotification(entry.key);
->>>>>>> b15ac2d... Filter spam notifications
                         } else {
                             return false;
                         }
