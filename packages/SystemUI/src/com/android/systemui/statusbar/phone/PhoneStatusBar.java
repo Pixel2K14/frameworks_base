@@ -815,7 +815,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 .getDefaultDisplay();
         updateDisplaySize();
 
-        ThemeConfig currentTheme = mContext.getResources().getConfiguration().customConfig;
+        ThemeConfig currentTheme = mContext.getResources().getConfiguration().themeConfig;
         if (currentTheme != null) {
             mCurrentTheme = (ThemeConfig)currentTheme.clone();
         }
