@@ -51,11 +51,7 @@ enabled.
     <View android:id="@+id/titleDivider"
             android:layout_width="match_parent"
             android:layout_height="1dip"
-<<<<<<< HEAD
-            android:background="@android:color/default_dialog_divider_holo_dark" />
-=======
             android:background="@color/dialog_title_divider" />
->>>>>>> 203fdae... Framework: Make the dialog divider color themeable
 
     <FrameLayout
         android:layout_width="match_parent" android:layout_height="wrap_content"
