@@ -811,7 +811,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                 final NotificationData.Entry entry = (Entry) v.getTag();
                 final StatusBarNotification sbNotification = entry.notification;
                 final String packageNameF = sbNotification.getPackageName();
-                final PendingIntent contentIntent = sbn.getNotification().contentIntent;
+                final PendingIntent contentIntent = sbNotification.getNotification().contentIntent;
                 if (packageNameF == null) return false;
                 if (v.getWindowToken() == null) return false;
 
